@@ -32,8 +32,10 @@ pipeline {
         stage('Push image') {
             steps {
                 withCredentials([usernamePassword(credentialsId: docker_registryCredential, usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
-                    dockerImage.push()
-                    dockerImage.push 'latest'
+                    script {
+                        dockerImage.push()
+                        dockerImage.push 'latest'
+                    }
                 }
                 
                 sh 'docker rmi ${docker_registry}:${imageTag}'
