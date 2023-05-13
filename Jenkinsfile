@@ -25,7 +25,8 @@ pipeline {
         stage('Building image') {
             steps{
                 script {
-                    def dockerImage = docker.build "${docker_registry}:${imageTag}"
+                    dockerImage = docker.build "${docker_registry}:${imageTag}"
+                    dockerLatestImage = docker.build "${docker_registry}:latest"
                 }
                 
             }
@@ -35,8 +36,9 @@ pipeline {
             steps {
                 withCredentials([usernamePassword(credentialsId: docker_registryCredential, usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
                     script {
-                        dockerImage.push()
-                        dockerImage.push('latest')
+                        sh 'docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}'
+                        sh 'docker push ${docker_registry}:${imageTag}'
+                        sh 'docker push ${docker_registry}:latest'
                     }
                 }
                 
