@@ -34,7 +34,7 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: docker_registryCredential, usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
                     script {
                         dockerImage.push()
-                        dockerImage.push 'latest'
+                        dockerImage.push('latest')
                     }
                 }
                 
