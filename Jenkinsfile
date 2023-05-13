@@ -3,8 +3,6 @@ def COLOR_MAP = [
     'FAILURE': 'danger'
 ]
 
-def dockerImage
-
 pipeline {
     agent any
 
